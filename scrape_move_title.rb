@@ -3,7 +3,6 @@
 require 'open-uri'
 require 'nokogiri'
 
-#url = 'http://www.yahoo.co.jp/'
 url = 'http://eiga.com/ranking/'
 
 charset = nil
@@ -15,26 +14,25 @@ end
 
 doc = Nokogiri::HTML.parse(html,nil,charset)
 
-#p doc.title
-
-#doc.xpath('//div[@id ="rankBox"]').each do |rank|
-#doc.xpath('//div[@id ="rankBox"]').map do |rank|
-#	p rank.css('a').inner_text
-#	$title = rank.css('a').inner_text
-#end
-
-	node = doc.xpath('//div[@id ="rankBox"]//a').text()
-	dataarray = node.css('a').map do |a|
-		data = a.text.gsub(/[\u00A0\n]/, '').strip
+	test = Array.new
+	node = doc.xpath('//div[@id ="rankBox"]//a')
+	nodeHash = node.inject({}) do |hash,title|
+		p hash
+		next hash unless title.text.empty?
+		
+		dataArray = title.css('img').map do |alt|
+			data = alt.attribute('alt').value
+		end
+	keyNm = dataArray.shift
+	hash[keyNm] = dataArray
+	hash
 	end
-	p data[1]
-		#	p node.length
-#	p node[1]
-#	p node[2]
-#page = Nokogiri::HTML(open('http://eiga.com/ranking/'))
-#p page.css("rankBox")[0].text
 
-#p $title[0]
-#p $title[1]
-#p $title.length
-
+nodeHash.each do |key, value|
+  puts "---------------------"
+  puts key
+  puts "---------------------"
+  value.each do |data|
+    puts data 
+  end
+end
