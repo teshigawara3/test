@@ -1,6 +1,5 @@
 #! ruby -Ku
-#require "./twitter_sample.rb"
-require "./scrape_move_title.rb"
-
+require "./scraping_movie_title.rb"
+require "./twitter_search.rb"
 
 
