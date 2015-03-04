@@ -14,25 +14,9 @@ end
 
 doc = Nokogiri::HTML.parse(html,nil,charset)
 
-	test = Array.new
-	node = doc.xpath('//div[@id ="rankBox"]//a')
-	nodeHash = node.inject({}) do |hash,title|
-		p hash
-		next hash unless title.text.empty?
-		
-		dataArray = title.css('img').map do |alt|
-			data = alt.attribute('alt').value
-		end
-	keyNm = dataArray.shift
-	hash[keyNm] = dataArray
-	hash
+node = doc.xpath('//div[@id ="rankBox"]//a')
+node.inject({}) do |hash,title|		
+	title.css('img').map do |alt|
+		p alt.attribute('alt').value
 	end
-
-nodeHash.each do |key, value|
-  puts "---------------------"
-  puts key
-  puts "---------------------"
-  value.each do |data|
-    puts data 
-  end
 end
