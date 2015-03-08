@@ -10,13 +10,15 @@ client = Twitter::REST::Client.new do |config|
   config.access_token        = "1407219055-1ZlToB4NmTRs8Wcl9FUZfbH6sWJMFKNhaVV3FPD"
   config.access_token_secret = "olA7RsVeSOjXO1Z6ULBodJaI6OhsLMAu0FNm4nIkn7x0l"
 end
-$test.each do |movietitle|
+
+movies = ScrapingMovie.new().GetMovies()
+
+movies.each do |movietitle|
 	p movietitle
 end
 
-
 #twt ="from:teshi321 sample"
-$test.each do |movietitle|
+movies.each do |movietitle|
 	str='from:teshi321 ' << movietitle
 #	client.search(movietitle, :result_type => "recent").take(1).collect do |tweet| "#{tweet.user.screen_name}:#{tweet.text}"
 	client.search(str, :result_type => "recent").take(1).collect do |tweet| "#{tweet.user.screen_name}:#{tweet.text}"
