@@ -2,6 +2,8 @@
 
 require 'open-uri'
 require 'nokogiri'
+require './movie'
+require './MovieList'
 
 class ScrapingMovie	
 
@@ -17,15 +19,17 @@ class ScrapingMovie
 		end
 
 		doc = Nokogiri::HTML.parse(html,nil,charset)
-
-		ms = Array.new
+		msList=MovieList.new
+		#ms = Array.new
 		node = doc.xpath('//div[@id ="rankBox"]//a')
 		node.each do |title|
 			title.css('img').map do |alt|
-				ms.push(alt.attribute('alt').value)
+				#ms.push(alt.attribute('alt').value)
+				ms = Movie.new(alt.attribute('alt').value)
+				msList.push(ms)
 			end
 		end
 
-		return ms
+		return msList
 	end
 end
